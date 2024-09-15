@@ -12,5 +12,10 @@ namespace ImpactHub.Business.Models
         //1..1
         public int IdCadastro { get; set; }
         public CadastroModel Cadastro { get; set; }
+
+        //1..N
+        public  IEnumerable<MonitoramentoModel> Monitoramentos { get; set; }
+        //1..N
+        public IEnumerable<RelatorioModel> Relatorios { get; set; }
     }
 }

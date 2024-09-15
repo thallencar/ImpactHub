@@ -22,16 +22,19 @@ namespace ImpactHub.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public Task<CEPResponse> BuscarCEP(string cep)
         {
-            LogManager.Instance.Log("Chamada da API VIACEP");
+            LogManager.Instance.Log("EnderecoController: Chamada do método para buscar o CEP");
 
             return cepService.BuscarCEP(cep);
         }
 
         [HttpGet]
-        [Route("DontKnowMyCEP")]
+        [Route("DescobrirMeuCEP")]
+        [ProducesResponseType(typeof(CEPResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public Task<IEnumerable<CEPResponse>> NaoSeiMeuCEP(string estado, string cidade, string rua)
         {
-            LogManager.Instance.Log("Chamada da API VIACEP");
+            LogManager.Instance.Log("EnderecoController: Chamada do método para descobrir o CEP, baseado nas informações requeridas.");
 
             return cepService.NaoSeiMeuCEP(estado, cidade, rua);
         }

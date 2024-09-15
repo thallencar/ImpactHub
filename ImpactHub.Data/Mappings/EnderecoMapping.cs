@@ -21,7 +21,7 @@ namespace ImpactHub.Data.Mappings
 
             builder.Property(e => e.Estado)
                 .IsRequired()
-                .HasColumnType("char(2)");
+                .HasColumnType("varchar(2)");
 
             builder.Property(e => e.Cidade)
                 .IsRequired()
@@ -37,7 +37,7 @@ namespace ImpactHub.Data.Mappings
 
             builder.Property(e => e.Numero)
                 .IsRequired()
-                .HasColumnType("numeric(5)");
+                .HasMaxLength(5);
 
             builder.Property(e => e.Complemento)
                 .IsRequired(false)
@@ -47,6 +47,8 @@ namespace ImpactHub.Data.Mappings
                 .IsRequired(false)
                 .HasColumnType("varchar(150)");
 
+            //EF RELATIONAL
+            //1..N
             builder.HasOne(e => e.Cadastro)
                 .WithMany(c => c.Enderecos)
                 .HasForeignKey(e => e.IdCadastro);

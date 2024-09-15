@@ -22,6 +22,17 @@ namespace ImpactHub.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(20)");
 
+            //EF RELATIONAL
+            //1..N
+            builder.HasMany(l => l.Monitoramentos)
+                .WithOne(m => m.Login)
+                .HasForeignKey(m => m.IdLogin);
+
+            //1..N
+            builder.HasMany(l => l.Relatorios)
+                .WithOne(r => r.Login)
+                .HasForeignKey(r => r.IdLogin);
+
             builder.ToTable("TB_IMPACTHUB_LOGIN");
         }
     }
