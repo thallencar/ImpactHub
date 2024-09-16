@@ -1,6 +1,8 @@
 
 using ImpactHub.API.Configuration;
+using ImpactHub.Business.Interfaces;
 using ImpactHub.Data.Contexts;
+using ImpactHub.Repositories;
 using ImpactHub.Services.CEPService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -41,6 +43,9 @@ namespace ImpactHub.API
             });
 
             builder.Services.AddScoped<ICEPService, CEPService>();
+            //builder.Services.AddScoped<ICadastroRepository, CadastroRepository>();
+            builder.Services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+
 
             var app = builder.Build();
 
