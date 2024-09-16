@@ -33,7 +33,82 @@ Como descrito no tópico acima, microservices são um tipo de arquitetura que co
   - Confiabilidade: Pelo fato de cada camada ter a sua responsabilidade, a probabilidade de sofrer ataques ou ter a aplicação derrubada é muito menor.
 #### Contras
   - Complexibilidade: A comunicação entre os microserviços requerem uma abordagem cuidadosa para garantir a coordenação e a consistência dos dados;
-  - Custos: Cada microserviço possui seu custo, o que pode eventuaalmente fugir da realidade financeira da empresa;
+  - Custos: Cada microserviço possui seu custo, o que pode eventualmente fugir da realidade financeira da empresa;
   - Despadronização: À medida em que o projeto é desenvolvido, mais pessoas podem se juntar ao time de desenvolvimento, podendo acarretar na falta de padronização dos códigos.
 
 
+## Design Patterns
+Design Patterns são resoluções de problemas diferentes, comumente enfrentados por desenvolvedores. A API do Impacthub conta com a implementação de alguns padrões de designs:
+### Repository Pattern
+Isola a Data Acess Layer (DAL) e encapsula a lógica necessária para a comunicação com o banco de dados, utilizando os repositórios especializados para criar uma interface para cada entidade da camada de negócio.
+```
+public interface IBaseRepository<TEntity> : IDisposable where TEntity : class
+    {
+
+        Task<TEntity> GetById(int id);
+        Task<IEnumerable<TEntity>> GetAll();
+        Task Add(TEntity entity);
+        Task Update(TEntity entity);
+        Task Delete(TEntity entity);
+        Task<int> SaveChanges();
+    }
+```
+### Unity of Work
+Gerencia as transações de banco de dados e garante a consistência dos dados. O padrão garante que todas as mudanças sejam salvas de forma atômica, ou seja, todas as operações são concluídas ou nenhuma é.
+```
+public async Task<int> SaveChanges()
+        {
+            return await _context.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            _context?.Dispose();
+        }
+```
+### Data Acess Layer (DAL)
+Camada que lida com a comunicação com o banco de dados, encapsulando o código necessário para acessar e manipular os dados, separando a lógica do restante da aplicação.
+```
+ public class ImpactHubDbContext : DbContext
+    {
+        public ImpactHubDbContext(DbContextOptions options) : base(options) { }
+
+        public DbSet<CadastroModel> Cadastros { get; set; }
+        public DbSet<ContatoModel> Contatos { get; set; }
+        public DbSet<EnderecoModel> Enderecos { get; set; }
+        public DbSet<LoginModel> Logins { get; set; }
+    }
+```
+### Controller Pattern
+Recebe as solicitações HTTP, interage com o modelo (representado pelo repositório) e retorna a resposta apropriada.
+```
+    [Route("[controller]")]
+    [ApiController]
+    public class CadastrosController : ControllerBase
+    {
+        private readonly ICadastroRepository _cadastroRepository;
+
+        public CadastrosController(ICadastroRepository cadastroRepository)
+        {
+            _cadastroRepository = cadastroRepository;
+        }
+
+        // GET: api/cadastros
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<CadastroModel>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAllCadastros()
+        {
+            var cadastros = await _cadastroRepository.GetAllCadastros();
+
+            return Ok(cadastros);
+        }
+  }
+```
+### Singleton
+Permite a garantia de que uma classe tenha apenas uma instância, enquanto provê um ponto de acesso global para essa instância.
+```
+            IConfiguration configuration = builder.Configuration;
+            APIConfiguration appConfiguration = new();
+            configuration.Bind(appConfiguration);
+            builder.Services.Configure<APIConfiguration>(configuration);
+```
