@@ -37,6 +37,7 @@ namespace ImpactHub.Data.Mappings
             builder.Property(c => c.DataAbertura)
                 .IsRequired();
 
+            /*
             //EF RELATIONAL
             //1..N
             builder.HasMany(c => c.Enderecos)
@@ -47,11 +48,7 @@ namespace ImpactHub.Data.Mappings
             builder.HasMany(c => c.Contatos)
                 .WithOne(c => c.Cadastro)
                 .HasForeignKey(c => c.IdCadastro);
-
-            //1..1
-            builder.HasOne(c => c.Login)
-                .WithOne(l => l.Cadastro)
-                .HasForeignKey<LoginModel>(l => l.IdCadastro);
+            */
 
 
             builder.ToTable("TB_IMPACTHUB_CADASTRO");

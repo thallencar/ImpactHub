@@ -3,6 +3,7 @@ using System;
 using ImpactHub.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Oracle.EntityFrameworkCore.Metadata;
 
@@ -11,9 +12,11 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace ImpactHub.Data.Migrations
 {
     [DbContext(typeof(ImpactHubDbContext))]
-    partial class ImpactHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240916025420_UpdatingModelsv1")]
+    partial class UpdatingModelsv1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

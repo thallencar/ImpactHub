@@ -27,6 +27,7 @@ namespace ImpactHub.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(20)");
 
+            /*
             //EF RELATIONAL
             builder.HasOne(r => r.Login)
                 .WithMany(l => l.Relatorios)
@@ -35,6 +36,7 @@ namespace ImpactHub.Data.Mappings
             builder.HasOne(r => r.Resultado)
                 .WithMany(res => res.Relatorios)
                 .HasForeignKey(r => r.IdResultado);
+            */
 
             builder.ToTable("TB_IMPACTHUB_RELATORIO");
         }

@@ -47,11 +47,13 @@ namespace ImpactHub.Data.Mappings
                 .IsRequired(false)
                 .HasColumnType("varchar(150)");
 
+            /*
             //EF RELATIONAL
             //1..N
             builder.HasOne(e => e.Cadastro)
                 .WithMany(c => c.Enderecos)
                 .HasForeignKey(e => e.IdCadastro);
+            */
 
             builder.ToTable("TB_IMPACTHUB_ENDERECO");
         }

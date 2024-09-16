@@ -31,11 +31,13 @@ namespace ImpactHub.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(25)");
 
+            /*
             //EF RELATIONAL
             //1..N
             builder.HasOne(c => c.Cadastro)
                 .WithMany(c => c.Contatos)
                 .HasForeignKey(c => c.IdCadastro);
+            */
 
             builder.ToTable("TB_IMPACTHUB_CONTATO");
         }

@@ -12,8 +12,10 @@
         public string Complemento { get; set; }
         public string PontoReferencia { get; set; }
 
+        /*
         //1..N
         public int IdCadastro { get; set; }
         public CadastroModel Cadastro { get; set; }
+        */
     }
 }

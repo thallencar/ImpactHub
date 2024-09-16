@@ -9,6 +9,7 @@ namespace ImpactHub.Business.Models
         public string Senha { get; set; }
         public StatusLoginEnum StatusLogin { get; set; }
 
+        /*
         //1..1
         public int IdCadastro { get; set; }
         public CadastroModel Cadastro { get; set; }
@@ -17,5 +18,6 @@ namespace ImpactHub.Business.Models
         public  IEnumerable<MonitoramentoModel> Monitoramentos { get; set; }
         //1..N
         public IEnumerable<RelatorioModel> Relatorios { get; set; }
+        */
     }
 }
