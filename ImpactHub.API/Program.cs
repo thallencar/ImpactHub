@@ -44,6 +44,7 @@ namespace ImpactHub.API
 
             builder.Services.AddScoped<ICEPService, CEPService>();
             builder.Services.AddScoped<ICadastroRepository, CadastroRepository>();
+            builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
             builder.Services.AddScoped<IEnderecoRepository, EnderecoRepository>();
 
 

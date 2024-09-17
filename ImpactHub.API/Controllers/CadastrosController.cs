@@ -17,7 +17,6 @@ namespace ImpactHub.API.Controllers
             _cadastroRepository = cadastroRepository;
         }
 
-        // GET: api/cadastros
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CadastroModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAllCadastros()

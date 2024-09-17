@@ -12,8 +12,8 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace ImpactHub.Data.Migrations
 {
     [DbContext(typeof(ImpactHubDbContext))]
-    [Migration("20240915194252_MappingModels")]
-    partial class MappingModels
+    [Migration("20240917000834_InitialMapping")]
+    partial class InitialMapping
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,16 +37,12 @@ namespace ImpactHub.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(14)");
 
-                    b.Property<string>("DataAbertura")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR2(10)");
+                    b.Property<DateTime>("DataAbertura")
+                        .HasColumnType("TIMESTAMP(7)");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(30)");
-
-                    b.Property<int>("IdLogin")
-                        .HasColumnType("NUMBER(10)");
 
                     b.Property<string>("InscricaoEstadual")
                         .IsRequired()
@@ -56,6 +52,10 @@ namespace ImpactHub.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
+                    b.Property<string>("NomeUsuario")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("Porte")
                         .IsRequired()
                         .HasColumnType("varchar(10)");
@@ -63,6 +63,10 @@ namespace ImpactHub.Data.Migrations
                     b.Property<string>("RazaoSocial")
                         .IsRequired()
                         .HasColumnType("varchar(180)");
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("IdCadastro");
 
@@ -85,9 +89,6 @@ namespace ImpactHub.Data.Migrations
                         .HasMaxLength(3)
                         .HasColumnType("NUMBER(10)");
 
-                    b.Property<int>("IdCadastro")
-                        .HasColumnType("NUMBER(10)");
-
                     b.Property<string>("StatusContato")
                         .IsRequired()
                         .HasColumnType("varchar(25)");
@@ -102,8 +103,6 @@ namespace ImpactHub.Data.Migrations
                         .HasColumnType("varchar(25)");
 
                     b.HasKey("IdContato");
-
-                    b.HasIndex("IdCadastro");
 
                     b.ToTable("TB_IMPACTHUB_CONTATO", (string)null);
                 });
@@ -135,9 +134,6 @@ namespace ImpactHub.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(2)");
 
-                    b.Property<int>("IdCadastro")
-                        .HasColumnType("NUMBER(10)");
-
                     b.Property<string>("Logradouro")
                         .IsRequired()
                         .HasColumnType("varchar(125)");
@@ -151,8 +147,6 @@ namespace ImpactHub.Data.Migrations
 
                     b.HasKey("IdEndereco");
 
-                    b.HasIndex("IdCadastro");
-
                     b.ToTable("TB_IMPACTHUB_ENDERECO", (string)null);
                 });
 
@@ -163,9 +157,6 @@ namespace ImpactHub.Data.Migrations
                         .HasColumnType("NUMBER(10)");
 
                     OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdLogin"));
-
-                    b.Property<int>("IdCadastro")
-                        .HasColumnType("NUMBER(10)");
 
                     b.Property<string>("NomeUsuario")
                         .IsRequired()
@@ -180,9 +171,6 @@ namespace ImpactHub.Data.Migrations
                         .HasColumnType("varchar(20)");
 
                     b.HasKey("IdLogin");
-
-                    b.HasIndex("IdCadastro")
-                        .IsUnique();
 
                     b.ToTable("TB_IMPACTHUB_LOGIN", (string)null);
                 });
@@ -208,15 +196,18 @@ namespace ImpactHub.Data.Migrations
                     b.Property<int>("IdResultado")
                         .HasColumnType("NUMBER(10)");
 
+                    b.Property<int>("LoginIdLogin")
+                        .HasColumnType("NUMBER(10)");
+
                     b.Property<string>("StatusMonitoramento")
                         .IsRequired()
                         .HasColumnType("varchar(15)");
 
                     b.HasKey("IdMonitoramento");
 
-                    b.HasIndex("IdLogin");
-
                     b.HasIndex("IdResultado");
+
+                    b.HasIndex("LoginIdLogin");
 
                     b.ToTable("TB_IMPACTHUB_MONITORAMENTO", (string)null);
                 });
@@ -277,6 +268,9 @@ namespace ImpactHub.Data.Migrations
                     b.Property<int>("IdResultado")
                         .HasColumnType("NUMBER(10)");
 
+                    b.Property<int>("LoginIdLogin")
+                        .HasColumnType("NUMBER(10)");
+
                     b.Property<string>("Melhorias")
                         .IsRequired()
                         .HasColumnType("varchar(225)");
@@ -291,9 +285,9 @@ namespace ImpactHub.Data.Migrations
 
                     b.HasKey("IdRelatorio");
 
-                    b.HasIndex("IdLogin");
-
                     b.HasIndex("IdResultado");
+
+                    b.HasIndex("LoginIdLogin");
 
                     b.ToTable("TB_IMPACTHUB_RELATORIO", (string)null);
                 });
@@ -348,46 +342,16 @@ namespace ImpactHub.Data.Migrations
                     b.ToTable("TB_IMPACTHUB_TIPO_QUESTIONARIO)", (string)null);
                 });
 
-            modelBuilder.Entity("ImpactHub.Business.Models.ContatoModel", b =>
-                {
-                    b.HasOne("ImpactHub.Business.Models.CadastroModel", "Cadastro")
-                        .WithMany("Contatos")
-                        .HasForeignKey("IdCadastro")
-                        .IsRequired();
-
-                    b.Navigation("Cadastro");
-                });
-
-            modelBuilder.Entity("ImpactHub.Business.Models.EnderecoModel", b =>
-                {
-                    b.HasOne("ImpactHub.Business.Models.CadastroModel", "Cadastro")
-                        .WithMany("Enderecos")
-                        .HasForeignKey("IdCadastro")
-                        .IsRequired();
-
-                    b.Navigation("Cadastro");
-                });
-
-            modelBuilder.Entity("ImpactHub.Business.Models.LoginModel", b =>
-                {
-                    b.HasOne("ImpactHub.Business.Models.CadastroModel", "Cadastro")
-                        .WithOne("Login")
-                        .HasForeignKey("ImpactHub.Business.Models.LoginModel", "IdCadastro")
-                        .IsRequired();
-
-                    b.Navigation("Cadastro");
-                });
-
             modelBuilder.Entity("ImpactHub.Business.Models.MonitoramentoModel", b =>
                 {
-                    b.HasOne("ImpactHub.Business.Models.LoginModel", "Login")
-                        .WithMany("Monitoramentos")
-                        .HasForeignKey("IdLogin")
-                        .IsRequired();
-
                     b.HasOne("ImpactHub.Business.Models.ResultadoModel", "Resultado")
                         .WithMany("Monitoramentos")
                         .HasForeignKey("IdResultado")
+                        .IsRequired();
+
+                    b.HasOne("ImpactHub.Business.Models.LoginModel", "Login")
+                        .WithMany()
+                        .HasForeignKey("LoginIdLogin")
                         .IsRequired();
 
                     b.Navigation("Login");
@@ -417,14 +381,14 @@ namespace ImpactHub.Data.Migrations
 
             modelBuilder.Entity("ImpactHub.Business.Models.RelatorioModel", b =>
                 {
-                    b.HasOne("ImpactHub.Business.Models.LoginModel", "Login")
-                        .WithMany("Relatorios")
-                        .HasForeignKey("IdLogin")
-                        .IsRequired();
-
                     b.HasOne("ImpactHub.Business.Models.ResultadoModel", "Resultado")
                         .WithMany("Relatorios")
                         .HasForeignKey("IdResultado")
+                        .IsRequired();
+
+                    b.HasOne("ImpactHub.Business.Models.LoginModel", "Login")
+                        .WithMany()
+                        .HasForeignKey("LoginIdLogin")
                         .IsRequired();
 
                     b.Navigation("Login");
@@ -440,23 +404,6 @@ namespace ImpactHub.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Questionario");
-                });
-
-            modelBuilder.Entity("ImpactHub.Business.Models.CadastroModel", b =>
-                {
-                    b.Navigation("Contatos");
-
-                    b.Navigation("Enderecos");
-
-                    b.Navigation("Login")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ImpactHub.Business.Models.LoginModel", b =>
-                {
-                    b.Navigation("Monitoramentos");
-
-                    b.Navigation("Relatorios");
                 });
 
             modelBuilder.Entity("ImpactHub.Business.Models.QuestionarioModel", b =>

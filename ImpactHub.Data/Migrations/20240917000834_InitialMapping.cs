@@ -6,22 +6,83 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ImpactHub.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class MappingModels : Migration
+    public partial class InitialMapping : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Nome",
-                table: "TB_IMPACTHUB_CADASTRO",
-                newName: "NomeEmpresa");
+            migrationBuilder.CreateTable(
+                name: "TB_IMPACTHUB_CADASTRO",
+                columns: table => new
+                {
+                    IdCadastro = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    NomeEmpresa = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Cnpj = table.Column<string>(type: "varchar(14)", nullable: false),
+                    InscricaoEstadual = table.Column<string>(type: "varchar(8)", nullable: false),
+                    RazaoSocial = table.Column<string>(type: "varchar(180)", nullable: false),
+                    Porte = table.Column<string>(type: "varchar(10)", nullable: false),
+                    DataAbertura = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
+                    Email = table.Column<string>(type: "varchar(30)", nullable: false),
+                    NomeUsuario = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Senha = table.Column<string>(type: "varchar(100)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TB_IMPACTHUB_CADASTRO", x => x.IdCadastro);
+                });
 
-            migrationBuilder.AddColumn<string>(
-                name: "Email",
-                table: "TB_IMPACTHUB_CADASTRO",
-                type: "varchar(30)",
-                nullable: false,
-                defaultValue: "");
+            migrationBuilder.CreateTable(
+                name: "TB_IMPACTHUB_CONTATO",
+                columns: table => new
+                {
+                    IdContato = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Ddi = table.Column<int>(type: "NUMBER(10)", maxLength: 3, nullable: false),
+                    Ddd = table.Column<int>(type: "NUMBER(10)", maxLength: 3, nullable: false),
+                    Telefone = table.Column<string>(type: "varchar(100)", maxLength: 10, nullable: false),
+                    TipoContato = table.Column<string>(type: "varchar(25)", nullable: false),
+                    StatusContato = table.Column<string>(type: "varchar(25)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TB_IMPACTHUB_CONTATO", x => x.IdContato);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TB_IMPACTHUB_ENDERECO",
+                columns: table => new
+                {
+                    IdEndereco = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    Cep = table.Column<string>(type: "varchar(10)", nullable: false),
+                    Estado = table.Column<string>(type: "varchar(2)", nullable: false),
+                    Cidade = table.Column<string>(type: "varchar(80)", nullable: false),
+                    Bairro = table.Column<string>(type: "varchar(80)", nullable: false),
+                    Logradouro = table.Column<string>(type: "varchar(125)", nullable: false),
+                    Numero = table.Column<int>(type: "NUMBER(10)", maxLength: 5, nullable: false),
+                    Complemento = table.Column<string>(type: "varchar(125)", nullable: true),
+                    PontoReferencia = table.Column<string>(type: "varchar(150)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TB_IMPACTHUB_ENDERECO", x => x.IdEndereco);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TB_IMPACTHUB_LOGIN",
+                columns: table => new
+                {
+                    IdLogin = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
+                    NomeUsuario = table.Column<string>(type: "varchar(80)", nullable: false),
+                    Senha = table.Column<string>(type: "varchar(16)", nullable: false),
+                    StatusLogin = table.Column<string>(type: "varchar(20)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TB_IMPACTHUB_LOGIN", x => x.IdLogin);
+                });
 
             migrationBuilder.CreateTable(
                 name: "TB_IMPACTHUB_TIPO_QUESTIONARIO)",
@@ -88,14 +149,15 @@ namespace ImpactHub.Data.Migrations
                     StatusMonitoramento = table.Column<string>(type: "varchar(15)", nullable: false),
                     DescricaoMonitoramento = table.Column<string>(type: "varchar(20)", nullable: false),
                     IdLogin = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    LoginIdLogin = table.Column<int>(type: "NUMBER(10)", nullable: false),
                     IdResultado = table.Column<int>(type: "NUMBER(10)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TB_IMPACTHUB_MONITORAMENTO", x => x.IdMonitoramento);
                     table.ForeignKey(
-                        name: "FK_TB_IMPACTHUB_MONITORAMENTO_TB_IMPACTHUB_LOGIN_IdLogin",
-                        column: x => x.IdLogin,
+                        name: "FK_TB_IMPACTHUB_MONITORAMENTO_TB_IMPACTHUB_LOGIN_LoginIdLogin",
+                        column: x => x.LoginIdLogin,
                         principalTable: "TB_IMPACTHUB_LOGIN",
                         principalColumn: "IdLogin");
                     table.ForeignKey(
@@ -133,14 +195,15 @@ namespace ImpactHub.Data.Migrations
                     PontosFaltantesMelhorias = table.Column<string>(type: "varchar(225)", nullable: false),
                     StatusRelatorio = table.Column<string>(type: "varchar(20)", nullable: false),
                     IdLogin = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    LoginIdLogin = table.Column<int>(type: "NUMBER(10)", nullable: false),
                     IdResultado = table.Column<int>(type: "NUMBER(10)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TB_IMPACTHUB_RELATORIO", x => x.IdRelatorio);
                     table.ForeignKey(
-                        name: "FK_TB_IMPACTHUB_RELATORIO_TB_IMPACTHUB_LOGIN_IdLogin",
-                        column: x => x.IdLogin,
+                        name: "FK_TB_IMPACTHUB_RELATORIO_TB_IMPACTHUB_LOGIN_LoginIdLogin",
+                        column: x => x.LoginIdLogin,
                         principalTable: "TB_IMPACTHUB_LOGIN",
                         principalColumn: "IdLogin");
                     table.ForeignKey(
@@ -151,14 +214,14 @@ namespace ImpactHub.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TB_IMPACTHUB_MONITORAMENTO_IdLogin",
-                table: "TB_IMPACTHUB_MONITORAMENTO",
-                column: "IdLogin");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TB_IMPACTHUB_MONITORAMENTO_IdResultado",
                 table: "TB_IMPACTHUB_MONITORAMENTO",
                 column: "IdResultado");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TB_IMPACTHUB_MONITORAMENTO_LoginIdLogin",
+                table: "TB_IMPACTHUB_MONITORAMENTO",
+                column: "LoginIdLogin");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TB_IMPACTHUB_QUESTIONARIO_IdTipoQuestionario",
@@ -166,14 +229,14 @@ namespace ImpactHub.Data.Migrations
                 column: "IdTipoQuestionario");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TB_IMPACTHUB_RELATORIO_IdLogin",
-                table: "TB_IMPACTHUB_RELATORIO",
-                column: "IdLogin");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TB_IMPACTHUB_RELATORIO_IdResultado",
                 table: "TB_IMPACTHUB_RELATORIO",
                 column: "IdResultado");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TB_IMPACTHUB_RELATORIO_LoginIdLogin",
+                table: "TB_IMPACTHUB_RELATORIO",
+                column: "LoginIdLogin");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TB_IMPACTHUB_RESULTADOS_IdQuestionario",
@@ -185,6 +248,15 @@ namespace ImpactHub.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "TB_IMPACTHUB_CADASTRO");
+
+            migrationBuilder.DropTable(
+                name: "TB_IMPACTHUB_CONTATO");
+
+            migrationBuilder.DropTable(
+                name: "TB_IMPACTHUB_ENDERECO");
+
+            migrationBuilder.DropTable(
                 name: "TB_IMPACTHUB_MONITORAMENTO");
 
             migrationBuilder.DropTable(
@@ -194,6 +266,9 @@ namespace ImpactHub.Data.Migrations
                 name: "TB_IMPACTHUB_RELATORIO");
 
             migrationBuilder.DropTable(
+                name: "TB_IMPACTHUB_LOGIN");
+
+            migrationBuilder.DropTable(
                 name: "TB_IMPACTHUB_RESULTADOS");
 
             migrationBuilder.DropTable(
@@ -201,15 +276,6 @@ namespace ImpactHub.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "TB_IMPACTHUB_TIPO_QUESTIONARIO)");
-
-            migrationBuilder.DropColumn(
-                name: "Email",
-                table: "TB_IMPACTHUB_CADASTRO");
-
-            migrationBuilder.RenameColumn(
-                name: "NomeEmpresa",
-                table: "TB_IMPACTHUB_CADASTRO",
-                newName: "Nome");
         }
     }
 }
