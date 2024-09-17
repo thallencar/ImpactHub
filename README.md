@@ -1,10 +1,10 @@
 # ImpactHub API
 #### Integrantes
-Bruno Mathews Ciccio De Oliveira – RM99097 
-Isabelle Corsi – RM97751 
-José Luiz Ferreira Duarte – RM99488 
-Marina De Souza Cucco – RM551569 
-Thalita Fachinete de Alencar – RM99292 
+- Bruno Mathews Ciccio De Oliveira – RM99097 
+- Isabelle Corsi – RM97751 
+- José Luiz Ferreira Duarte – RM99488 
+- Marina De Souza Cucco – RM551569 
+- Thalita Fachinete de Alencar – RM99292 
 
 ## O Projeto
 Impacthub é uma plataforma inovadora que auxilia empresas a gerenciar suas práticas de ESG (Environmental, Social and Governance) de forma eficiente e automatizada. Com a crescente demanda por sustentabilidade, transparência e responsabilidade social, muitas empresas enfrentam desafios para se manterem em conformidade com as regulamentações e demonstrar seu compromisso com o meio ambiente e a sociedade. A plataforma resolve esses desafios automatizando a coleta de dados, facilitando a conformidade com certificações e regulamentos, e oferecendo um ranking público de conformidade ESG. As principais soluções oferecidas incluem:
