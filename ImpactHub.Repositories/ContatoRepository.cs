@@ -1,7 +1,8 @@
 ﻿using ImpactHub.Business.Interfaces;
 using ImpactHub.Business.Models;
-using ImpactHub.Data.Contexts;
+using ImpactHub.Data;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 
 namespace ImpactHub.Repositories
 {
@@ -14,7 +15,7 @@ namespace ImpactHub.Repositories
             return await _context.Contatos.AsNoTracking().ToListAsync();
         }
 
-        public async Task<ContatoModel> GetContato(int id)
+        public async Task<ContatoModel> GetContato(ObjectId? id)
         {
             return await _context.Contatos.AsNoTracking().FirstOrDefaultAsync(c => c.IdContato == id);
         }

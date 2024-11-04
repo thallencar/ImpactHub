@@ -1,6 +1,7 @@
 ﻿using ImpactHub.Business.Interfaces;
-using ImpactHub.Data.Contexts;
+using ImpactHub.Data;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 
 namespace ImpactHub.Repositories
 {
@@ -40,7 +41,7 @@ namespace ImpactHub.Repositories
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<TEntity> GetById(int id)
+        public async Task<TEntity> GetById(ObjectId? id)
         {
             return await _dbSet.FindAsync(id);
         }
