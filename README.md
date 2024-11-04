@@ -1,7 +1,13 @@
 # ImpactHub API
+#### Integrantes
+- Bruno Mathews Ciccio De Oliveira – RM99097 
+- Isabelle Corsi – RM97751 
+- José Luiz Ferreira Duarte – RM99488 
+- Marina De Souza Cucco – RM551569 
+- Thalita Fachinete de Alencar – RM99292 
 
 ## O Projeto
-Impacthub é uma plataforma inovadora para ajudar empresas a gerenciar suas práticas de ESG (Environmental, Social and Governance) de forma eficiente e automatizada. Com a crescente demanda por sustentabilidade, transparência e responsabilidade social, muitas empresas encontram dificuldades para se manter em conformidade com as regulamentações e provar seu compromisso com o meio ambiente e sociedade. A plataforma resolve esses desafios automatizando a coleta de dados, facilitando a conformidade com certificações e regulamentos, e oferecendo um ranking públic de conformidade ESG. A plataforma oferece cinco soluções principais:
+Impacthub é uma plataforma inovadora que auxilia empresas a gerenciar suas práticas de ESG (Environmental, Social and Governance) de forma eficiente e automatizada. Com a crescente demanda por sustentabilidade, transparência e responsabilidade social, muitas empresas enfrentam desafios para se manterem em conformidade com as regulamentações e demonstrar seu compromisso com o meio ambiente e a sociedade. A plataforma resolve esses desafios automatizando a coleta de dados, facilitando a conformidade com certificações e regulamentos, e oferecendo um ranking público de conformidade ESG. As principais soluções oferecidas incluem:
 1. Automação e Insights Inteligentes
 2. Conformidade e Certificação
 3. Integração com Ferramentas de Negócios
@@ -9,38 +15,38 @@ Impacthub é uma plataforma inovadora para ajudar empresas a gerenciar suas prá
 5. Transparência e Credibilidade
 
 ## Arquitetura da API
-A arquitetura escolhida para o projeto, foi a abordagem de microsservices.
+A arquitetura do projeto segue a abordagem de microsserviços.
 > "Microsserviços são uma abordagem arquitetônica e organizacional do desenvolvimento de software na qual o software consiste em pequenos serviços independentes que se comunicam usando APIs bem definidas. Esses serviços pertencem a pequenas equipes autossuficientes. As arquiteturas de microsserviços facilitam a escalabilidade e agilizam o desenvolvimento de aplicativos, habilitando a inovação e acelerando o tempo de introdução de novos recursos no mercado."  - (AWS) 
 
-A escolha foi baseada na necessidade de escalabilidade e independência entre os serviços, permitindo que diferentes partes da aplicação sejam escaladas de forma independente e sem a necessidade de escalar toda a aplicação. Com isso, há uma melhora significativa na manutenção do projeto, além do aumento de sua flexibilidade, permitindo a alteração simutânea em diferentes serviços. Além disso, essa abordagem está mais alinhada com os princípios SOLID e design patterns, assim promovendo uma melhor divisão de responsabilidades e reduzindo a complexidade do projeto.
+Essa abordagem foi escolhida devido à necessidade de escalabilidade e independência dos serviços, permitindo que diferentes partes da aplicação sejam escaladas de forma isolada. Isso melhora a manutenção e aumenta a flexibilidade do projeto, permitindo alterações simultâneas em diversos serviços. Além disso, a arquitetura está alinhada com os princípios SOLID e padrões de design, promovendo uma divisão clara de responsabilidades e reduzindo a complexidade.
 
 
-## Monolithic x Microservices
-Como descrito no tópico acima, microservices são um tipo de arquitetura que combina flexibilidade, escalabilidade, interdependência e baixo nível de complexidade. A arquitetura monolítica não é em si errada, porém é necessário avaliar a complexidade do projeto, bem como sua regra de negócio. Ao fazer o levantamento de requisitos do projeto, devemos levar em conta esses dois pontos levantados e assim decidir a melhor forma de conduzir o projeto. Houve o seguinte levantamento de prós e contras:
+## Monolítico x Microsserviços
+Embora a arquitetura monolítica não seja incorreta, é importante avaliar a complexidade do projeto e suas regras de negócio para decidir qual abordagem adotar. Aqui estão os prós e contras de cada modelo:
 ### 1. Monolítica
 #### Prós
-  - Estrutura simplificada: O projeto é criado em apenas uma camada, gerando uma maior facilidade para desenvolver o código;
-  - Redução de recursos: Não é necessária a implantação de muitos recursos ao longo do desenvolvimento do projeto;
-  - Depuração de testes: Uma vez em que a aplicação encontra-se em uma camada só, a depuração do código fica mais simples.
+  - Estrutura simplificada: O projeto é desenvolvido em uma única camada, facilitando o desenvolvimento.
+  - Menor consumo de recursos: Não exige a implantação de muitos recursos durante o desenvolvimento.
+  - Depuração simplificada: Com a aplicação em uma única camada, a depuração é mais direta.
 #### Contras
-  - Manutenção: Ao passo que a aplicação vai aumentando, suas responsabilidades também. Assim ficará cada vez mais difícil de fazer rápidas alterações no código;
-  - Restrição: Por usar a mesma base de tecnlogias, a aplicação não se torna apta a receber diferentes tecnologias;
-  - Riscos: Pelo fato de todos os dados se encontrarem algomerados em uma camada só, a aplicação se torna mais vulnerável à ataques e tentativas maliciosas de dano ao produto.
+  - Manutenção: Conforme o projeto cresce, torna-se mais difícil realizar alterações rápidas.
+  - Restrição tecnológica: A aplicação fica limitada ao uso de uma base tecnológica única.
+  - Riscos de segurança: A concentração de dados em uma camada única aumenta a vulnerabilidade a ataques.
 ### 2. Microserviços
 #### Prós
-  - Objetividade: A arquitetura consequentemente adota o padrão SOLID, dividindo cada camada em uma responsabilidade diferente;
-  - Flexibilidade: Várias tecnologias podem ser implementadas ao longo do desenvolvimento do projeto, sem interferir na sua aplicabilidade;
-  - Confiabilidade: Pelo fato de cada camada ter a sua responsabilidade, a probabilidade de sofrer ataques ou ter a aplicação derrubada é muito menor.
+  - Objetividade: A arquitetura segue o padrão SOLID, dividindo responsabilidades de forma clara.
+  - Flexibilidade: Permite o uso de diferentes tecnologias ao longo do desenvolvimento sem impacto no funcionamento.
+  - Confiabilidade: A separação das responsabilidades reduz a probabilidade de falhas generalizadas ou ataques bem-sucedidos.
 #### Contras
-  - Complexibilidade: A comunicação entre os microserviços requerem uma abordagem cuidadosa para garantir a coordenação e a consistência dos dados;
-  - Custos: Cada microserviço possui seu custo, o que pode eventualmente fugir da realidade financeira da empresa;
-  - Despadronização: À medida em que o projeto é desenvolvido, mais pessoas podem se juntar ao time de desenvolvimento, podendo acarretar na falta de padronização dos códigos.
+  - Complexidade: A comunicação entre microsserviços exige coordenação cuidadosa para garantir consistência dos dados.
+  - Custo: Cada microsserviço tem seus próprios custos, o que pode aumentar os gastos.
+  - Despadronização: O aumento da equipe de desenvolvimento pode levar à falta de padronização no código.
 
 
 ## Design Patterns
-Design Patterns são resoluções de problemas diferentes, comumente enfrentados por desenvolvedores. A API do Impacthub conta com a implementação de alguns padrões de designs:
+Os design patterns são soluções comprovadas para problemas comuns enfrentados por desenvolvedores. A API do ImpactHub implementa os seguintes padrões:
 ### Repository Pattern
-Isola a Data Acess Layer (DAL) e encapsula a lógica necessária para a comunicação com o banco de dados, utilizando os repositórios especializados para criar uma interface para cada entidade da camada de negócio.
+Isola a camada de acesso a dados (Data Access Layer - DAL) e encapsula a lógica de comunicação com o banco de dados, utilizando repositórios especializados para cada entidade.
 ```
 public interface IBaseRepository<TEntity> : IDisposable where TEntity : class
 {
@@ -53,7 +59,7 @@ public interface IBaseRepository<TEntity> : IDisposable where TEntity : class
 }
 ```
 ### Unity of Work
-Gerencia as transações de banco de dados e garante a consistência dos dados. O padrão garante que todas as mudanças sejam salvas de forma atômica, ou seja, todas as operações são concluídas ou nenhuma é.
+Gerencia transações com o banco de dados, garantindo a consistência dos dados. As alterações são salvas de forma atômica — ou todas são aplicadas ou nenhuma.
 ```
 public async Task<int> SaveChanges()
 {
@@ -66,7 +72,7 @@ public void Dispose()
 }
 ```
 ### Data Acess Layer (DAL)
-Camada que lida com a comunicação com o banco de dados, encapsulando o código necessário para acessar e manipular os dados, separando a lógica do restante da aplicação.
+Responsável pela comunicação com o banco de dados, encapsula o código necessário para acessar e manipular dados, separando essa lógica do restante da aplicação.
 ```
 public class ImpactHubDbContext : DbContext
 {
@@ -79,7 +85,7 @@ public class ImpactHubDbContext : DbContext
 }
 ```
 ### Controller Pattern
-Recebe as solicitações HTTP, interage com o modelo (representado pelo repositório) e retorna a resposta apropriada.
+Gerencia as solicitações HTTP, interage com o modelo (representado pelo repositório) e retorna a resposta apropriada.
 ```
 [Route("[controller]")]
 [ApiController]
@@ -104,7 +110,7 @@ public class CadastrosController : ControllerBase
 }
 ```
 ### Singleton
-Permite a garantia de que uma classe tenha apenas uma instância, enquanto provê um ponto de acesso global para essa instância.
+Garante que uma classe tenha apenas uma instância e fornece um ponto de acesso global para essa instância.
 ```
 IConfiguration configuration = builder.Configuration;
 APIConfiguration appConfiguration = new();
