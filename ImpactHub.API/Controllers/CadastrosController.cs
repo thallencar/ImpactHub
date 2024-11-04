@@ -1,7 +1,10 @@
-﻿using ImpactHub.Business.Interfaces;
+﻿using AutoMapper;
+using ImpactHub.API.Requests;
+using ImpactHub.API.Responses;
+using ImpactHub.Business.Interfaces;
 using ImpactHub.Business.Models;
-using ImpactHub.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using System.Net;
 
 namespace ImpactHub.API.Controllers
@@ -11,27 +14,31 @@ namespace ImpactHub.API.Controllers
     public class CadastrosController : ControllerBase
     {
         private readonly ICadastroRepository _cadastroRepository;
+        private readonly IMapper _mapper;
 
-        public CadastrosController(ICadastroRepository cadastroRepository)
+        public CadastrosController(ICadastroRepository cadastroRepository, IMapper mapper)
         {
             _cadastroRepository = cadastroRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<CadastroModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<CadastroResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAllCadastros()
         {
-            var cadastros = await _cadastroRepository.GetAllCadastros();
+            var responseCadastros = _mapper.Map<IEnumerable<CadastroResponse>>(await _cadastroRepository.GetAllCadastros());
 
-            return Ok(cadastros);
+            return Ok(responseCadastros);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(CadastroModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetCadastro(int id)
+        public async Task<IActionResult> GetCadastro(string id)
         {
-            var cadastro = await GetCadastroById(id);
+            var objectId = new ObjectId(id);
+
+            var cadastro = await GetCadastroById(objectId);
 
             if (cadastro == null) return NotFound();
 
@@ -41,9 +48,11 @@ namespace ImpactHub.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(CadastroModel), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateCadastro([FromBody] CadastroModel cadastro)
+        public async Task<IActionResult> CreateCadastro([FromBody] CadastroRequest cadastroRequest)
         {
-            if (cadastro == null) return BadRequest();
+            if ((cadastroRequest == null) || (!ModelState.IsValid)) return BadRequest(ModelState);
+
+            var cadastro = _mapper.Map<CadastroModel>(cadastroRequest);
 
             await _cadastroRepository.Add(cadastro);
 
@@ -54,15 +63,19 @@ namespace ImpactHub.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> UpdateCadastro(int id, [FromBody] CadastroModel cadastro)
+        public async Task<IActionResult> UpdateCadastro(string id, [FromBody] CadastroRequest cadastroRequest)
         {
-            if (id != cadastro.IdCadastro) return BadRequest();
+            var objectId = new ObjectId(id);
 
-            var atualizacaoCadastro = await GetCadastroById(id);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var atualizacaoCadastro = await GetCadastroById(objectId);
 
             if (atualizacaoCadastro == null) return NotFound();
 
-            await _cadastroRepository.Update(cadastro);
+            _mapper.Map(cadastroRequest, atualizacaoCadastro);
+
+            await _cadastroRepository.Update(atualizacaoCadastro);
 
             return NoContent();
         }
@@ -70,9 +83,11 @@ namespace ImpactHub.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteCadastro(int id)
+        public async Task<IActionResult> DeleteCadastro(string id)
         {
-            var cadastro = await GetCadastroById(id);
+            var objectId = new ObjectId(id);
+
+            var cadastro = await GetCadastroById(objectId);
 
             if (cadastro == null) return NotFound();
 
@@ -81,7 +96,7 @@ namespace ImpactHub.API.Controllers
             return NoContent();
         }
 
-        private async Task<CadastroModel> GetCadastroById(int id)
+        private async Task<CadastroModel> GetCadastroById(ObjectId id)
         {
             return await _cadastroRepository.GetCadastro(id);
         }

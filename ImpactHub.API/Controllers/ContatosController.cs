@@ -1,6 +1,10 @@
-﻿using ImpactHub.Business.Interfaces;
+﻿using AutoMapper;
+using ImpactHub.API.Requests;
+using ImpactHub.API.Responses;
+using ImpactHub.Business.Interfaces;
 using ImpactHub.Business.Models;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using System.Net;
 
 namespace ImpactHub.API.Controllers
@@ -10,27 +14,31 @@ namespace ImpactHub.API.Controllers
     public class ContatosController : ControllerBase
     {
         private readonly IContatoRepository _contatoRepository;
+        private readonly IMapper _mapper;
 
-        public ContatosController(IContatoRepository contatoRepository)
+        public ContatosController(IContatoRepository contatoRepository, IMapper mapper)
         {
             _contatoRepository = contatoRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ContatoModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<ContatoResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAllContatos()
         {
-            var contato = await _contatoRepository.GetAllContatos();
+            var responseContato = _mapper.Map<IEnumerable<ContatoResponse>>(await _contatoRepository.GetAllContatos());
 
-            return Ok(contato);
+            return Ok(responseContato);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ContatoModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetContato(int id)
+        public async Task<IActionResult> GetContato(string id)
         {
-            var contato = await GetContatoById(id);
+            var objectId = new ObjectId(id);
+
+            var contato = await GetContatoById(objectId);
 
             if (contato == null) return NotFound();
 
@@ -40,9 +48,11 @@ namespace ImpactHub.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(ContatoModel), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateContato([FromBody] ContatoModel contato)
+        public async Task<IActionResult> CreateContato([FromBody] ContatoRequest contatoRequest)
         {
-            if (contato == null) return BadRequest();
+            if ((contatoRequest == null) ||(!ModelState.IsValid)) return BadRequest(ModelState);
+
+            var contato = _mapper.Map<ContatoModel>(contatoRequest);
 
             await _contatoRepository.Add(contato);
 
@@ -53,15 +63,19 @@ namespace ImpactHub.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> UpdateContato(int id, [FromBody] ContatoModel contato)
+        public async Task<IActionResult> UpdateContato(string id, [FromBody] ContatoRequest contatoRequest)
         {
-            if (id != contato.IdContato) return BadRequest();
+            var objectId = new ObjectId(id);
 
-            var atualizacaoContato = await GetContatoById(id);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var atualizacaoContato = await GetContatoById(objectId);
 
             if (atualizacaoContato == null) return NotFound();
 
-            await _contatoRepository.Update(contato);
+            _mapper.Map(contatoRequest, atualizacaoContato);
+
+            await _contatoRepository.Update(atualizacaoContato);
 
             return NoContent();
         }
@@ -69,9 +83,11 @@ namespace ImpactHub.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteContato(int id)
+        public async Task<IActionResult> DeleteContato(string id)
         {
-            var contato = await GetContatoById(id);
+            var objectId = new ObjectId(id);
+
+            var contato = await GetContatoById(objectId);
 
             if (contato == null) return NotFound();
 
@@ -80,7 +96,7 @@ namespace ImpactHub.API.Controllers
             return NoContent();
         }
 
-        private async Task<ContatoModel> GetContatoById(int id)
+        private async Task<ContatoModel> GetContatoById(ObjectId id)
         {
             return await _contatoRepository.GetContato(id);
         }

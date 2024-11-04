@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "QdI18GWChGI1hkthxJusKldjHyE5D27LfY/XIs4FGZk=",
+  "Source": "ImpactHub.API",
+  "BasePath": "_content/ImpactHub.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
