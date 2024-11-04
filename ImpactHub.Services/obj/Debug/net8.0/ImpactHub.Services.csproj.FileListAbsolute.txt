@@ -1,0 +1,13 @@
+C:\Users\alenc\ImpactHub\ImpactHub.Services\bin\Debug\net8.0\ImpactHub.Services.deps.json
+C:\Users\alenc\ImpactHub\ImpactHub.Services\bin\Debug\net8.0\ImpactHub.Services.dll
+C:\Users\alenc\ImpactHub\ImpactHub.Services\bin\Debug\net8.0\ImpactHub.Services.pdb
+C:\Users\alenc\ImpactHub\ImpactHub.Services\obj\Debug\net8.0\ImpactHub.Services.csproj.AssemblyReference.cache
+C:\Users\alenc\ImpactHub\ImpactHub.Services\obj\Debug\net8.0\ImpactHub.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alenc\ImpactHub\ImpactHub.Services\obj\Debug\net8.0\ImpactHub.Services.AssemblyInfoInputs.cache
+C:\Users\alenc\ImpactHub\ImpactHub.Services\obj\Debug\net8.0\ImpactHub.Services.AssemblyInfo.cs
+C:\Users\alenc\ImpactHub\ImpactHub.Services\obj\Debug\net8.0\ImpactHub.Services.csproj.CoreCompileInputs.cache
+C:\Users\alenc\ImpactHub\ImpactHub.Services\obj\Debug\net8.0\ImpactHub.Services.sourcelink.json
+C:\Users\alenc\ImpactHub\ImpactHub.Services\obj\Debug\net8.0\ImpactHub.Services.dll
+C:\Users\alenc\ImpactHub\ImpactHub.Services\obj\Debug\net8.0\refint\ImpactHub.Services.dll
+C:\Users\alenc\ImpactHub\ImpactHub.Services\obj\Debug\net8.0\ImpactHub.Services.pdb
+C:\Users\alenc\ImpactHub\ImpactHub.Services\obj\Debug\net8.0\ref\ImpactHub.Services.dll
