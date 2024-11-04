@@ -2,6 +2,9 @@
 {
     public enum StatusContatoEnum
     {
-        Ativo, Inativo, Bloqueado, Suspenso
+        Ativo = 1,
+        Inativo = 2, 
+        Bloqueado = 3, 
+        Suspenso = 4
     }
 }

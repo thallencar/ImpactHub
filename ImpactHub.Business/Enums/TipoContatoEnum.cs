@@ -2,6 +2,11 @@
 {
     public enum TipoContatoEnum
     {
-        Celular, Comercial, Recados, Emergencia, Desconhecido, Outros
+        Celular = 1, 
+        Comercial = 2, 
+        Recados = 3, 
+        Emergencia = 4, 
+        Desconhecido = 5, 
+        Outros = 6
     }
 }

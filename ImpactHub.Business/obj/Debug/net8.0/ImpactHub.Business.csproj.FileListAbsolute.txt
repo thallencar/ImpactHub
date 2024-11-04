@@ -1,0 +1,13 @@
+C:\Users\alenc\ImpactHub\ImpactHub.Business\bin\Debug\net8.0\ImpactHub.Business.deps.json
+C:\Users\alenc\ImpactHub\ImpactHub.Business\bin\Debug\net8.0\ImpactHub.Business.dll
+C:\Users\alenc\ImpactHub\ImpactHub.Business\bin\Debug\net8.0\ImpactHub.Business.pdb
+C:\Users\alenc\ImpactHub\ImpactHub.Business\obj\Debug\net8.0\ImpactHub.Business.csproj.AssemblyReference.cache
+C:\Users\alenc\ImpactHub\ImpactHub.Business\obj\Debug\net8.0\ImpactHub.Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alenc\ImpactHub\ImpactHub.Business\obj\Debug\net8.0\ImpactHub.Business.AssemblyInfoInputs.cache
+C:\Users\alenc\ImpactHub\ImpactHub.Business\obj\Debug\net8.0\ImpactHub.Business.AssemblyInfo.cs
+C:\Users\alenc\ImpactHub\ImpactHub.Business\obj\Debug\net8.0\ImpactHub.Business.csproj.CoreCompileInputs.cache
+C:\Users\alenc\ImpactHub\ImpactHub.Business\obj\Debug\net8.0\ImpactHub.Business.sourcelink.json
+C:\Users\alenc\ImpactHub\ImpactHub.Business\obj\Debug\net8.0\ImpactHub.Business.dll
+C:\Users\alenc\ImpactHub\ImpactHub.Business\obj\Debug\net8.0\refint\ImpactHub.Business.dll
+C:\Users\alenc\ImpactHub\ImpactHub.Business\obj\Debug\net8.0\ImpactHub.Business.pdb
+C:\Users\alenc\ImpactHub\ImpactHub.Business\obj\Debug\net8.0\ref\ImpactHub.Business.dll

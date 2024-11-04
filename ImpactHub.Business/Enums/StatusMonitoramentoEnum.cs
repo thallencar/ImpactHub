@@ -2,11 +2,11 @@
 {
     public enum StatusMonitoramentoEnum
     {
-        NaoIniciado,
-        EmAndamento,      
-        Concluido,
-        Atrasado,          
-        Cancelado
+        NaoIniciado = 1,
+        EmAndamento = 2,      
+        Concluido = 3,
+        Atrasado = 4,          
+        Cancelado = 5
     }
 
 }
