@@ -22,7 +22,7 @@ namespace ImpactHub.Business.Models
 
         [BsonElement("pontuacaoGovernanca")]
         [BsonRepresentation(BsonType.Double)]
-        public double PontucaoGovernanca { get; set; }
+        public double PontuacaoGovernanca { get; set; }
 
         [BsonElement("statusResultado")]
         [BsonRepresentation(BsonType.String)]

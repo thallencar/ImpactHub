@@ -31,7 +31,7 @@ namespace ImpactHub.Business.Models
         public int Numero { get; set; }
 
         [BsonElement("complemento")]
-        public string Complemento { get; set; }
+        public string? Complemento { get; set; }
 
         [BsonElement("pontoDeReferencia")]
         public string PontoReferencia { get; set; }
