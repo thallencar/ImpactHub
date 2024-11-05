@@ -28,8 +28,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "cadastro",
-        "Type": "ImpactHub.Business.Models.CadastroModel",
+        "Name": "cadastroRequest",
+        "Type": "ImpactHub.API.Requests.CadastroRequest",
         "IsRequired": true
       }
     ],
@@ -341,7 +341,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ImpactHub.Business.Models.EnderecoModel, ImpactHub.Business, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ImpactHub.API.Responses.EnderecoResponse, ImpactHub.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -360,8 +360,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "endereco",
-        "Type": "ImpactHub.Business.Models.EnderecoModel",
+        "Name": "enderecoRequest",
+        "Type": "ImpactHub.API.Requests.EnderecoRequest",
         "IsRequired": true
       }
     ],
@@ -435,8 +435,8 @@
         "IsRequired": true
       },
       {
-        "Name": "endereco",
-        "Type": "ImpactHub.Business.Models.EnderecoModel",
+        "Name": "enderecoRequest",
+        "Type": "ImpactHub.API.Requests.EnderecoRequest",
         "IsRequired": true
       }
     ],
@@ -580,16 +580,22 @@
     ]
   },
   {
-    "ContainingType": "ImpactHub.API.Controllers.ResultadosESGController",
-    "Method": "GetAlResultadosESG",
-    "RelativePath": "ResultadosESG",
-    "HttpMethod": "GET",
+    "ContainingType": "ImpactHub.API.Controllers.ESGPrevisoesController",
+    "Method": "PreverESG",
+    "RelativePath": "ESGPrevisoes/prever",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "dados",
+        "Type": "ImpactHub.Business.Models.ESGPrevisaoMlModel",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[ImpactHub.Business.Models.ResultadoESGModel, ImpactHub.Business, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "ImpactHub.Business.Models.PrevisaoESG",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -600,22 +606,42 @@
     ]
   },
   {
-    "ContainingType": "ImpactHub.API.Controllers.ResultadosESGController",
-    "Method": "CreateResultadoESG",
-    "RelativePath": "ResultadosESG",
+    "ContainingType": "ImpactHub.API.Controllers.QuestionarioESGController",
+    "Method": "GetAllQuestionarios",
+    "RelativePath": "QuestionarioESG",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ImpactHub.API.Responses.QuestionarioESGResponse, ImpactHub.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ImpactHub.API.Controllers.QuestionarioESGController",
+    "Method": "CreateCadastro",
+    "RelativePath": "QuestionarioESG",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "resultadoESG",
-        "Type": "ImpactHub.Business.Models.ResultadoESGModel",
+        "Name": "questionarioESGRequest",
+        "Type": "ImpactHub.API.Requests.QuestionarioESGRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ImpactHub.Business.Models.ResultadoESGModel",
+        "Type": "ImpactHub.Business.Models.QuestionarioESGModel",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -635,9 +661,9 @@
     ]
   },
   {
-    "ContainingType": "ImpactHub.API.Controllers.ResultadosESGController",
-    "Method": "GetResultadoESG",
-    "RelativePath": "ResultadosESG/{id}",
+    "ContainingType": "ImpactHub.API.Controllers.QuestionarioESGController",
+    "Method": "GetQuestionario",
+    "RelativePath": "QuestionarioESG/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -650,7 +676,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ImpactHub.Business.Models.ResultadoESGModel",
+        "Type": "ImpactHub.Business.Models.QuestionarioESGModel",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -670,9 +696,9 @@
     ]
   },
   {
-    "ContainingType": "ImpactHub.API.Controllers.ResultadosESGController",
-    "Method": "UpdateResultadoESG",
-    "RelativePath": "ResultadosESG/{id}",
+    "ContainingType": "ImpactHub.API.Controllers.QuestionarioESGController",
+    "Method": "UpdateQuestionario",
+    "RelativePath": "QuestionarioESG/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -683,8 +709,8 @@
         "IsRequired": true
       },
       {
-        "Name": "resultadoESG",
-        "Type": "ImpactHub.Business.Models.ResultadoESGModel",
+        "Name": "questionarioESGRequest",
+        "Type": "ImpactHub.API.Requests.QuestionarioESGRequest",
         "IsRequired": true
       }
     ],
@@ -715,9 +741,9 @@
     ]
   },
   {
-    "ContainingType": "ImpactHub.API.Controllers.ResultadosESGController",
-    "Method": "DeleteResultadoESG",
-    "RelativePath": "ResultadosESG/{id}",
+    "ContainingType": "ImpactHub.API.Controllers.QuestionarioESGController",
+    "Method": "DeleteQuestionario",
+    "RelativePath": "QuestionarioESG/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,

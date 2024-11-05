@@ -61,6 +61,14 @@
               "target": "Package",
               "version": "[13.0.1, )"
             },
+            "Microsoft.ML": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
+            "Microsoft.ML.FastTree": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[3.0.0, )"
@@ -135,6 +143,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.ML": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
             "MongoDB.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.2.0, )"
@@ -320,7 +332,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\alenc\\ImpactHub\\ImpactHub.Business\\ImpactHub.Business.csproj": {
+                "projectPath": "C:\\Users\\alenc\\ImpactHub\\ImpactHub.Business\\ImpactHub.Business.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -338,6 +354,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.ML": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"

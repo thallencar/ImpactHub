@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "QdI18GWChGI1hkthxJusKldjHyE5D27LfY/XIs4FGZk=",
+  "Hash": "kB1nU+KJFjFFoKqT0wLQmLuG74YsGe2CcSpV6F7E8SE=",
   "Source": "ImpactHub.API",
   "BasePath": "_content/ImpactHub.API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ImpactHub.API\\wwwroot",
+      "Source": "ImpactHub.API",
+      "ContentRoot": "C:\\Users\\alenc\\ImpactHub\\ImpactHub.API\\wwwroot\\",
+      "BasePath": "_content/ImpactHub.API",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

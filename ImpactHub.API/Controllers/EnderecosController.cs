@@ -29,7 +29,7 @@ namespace ImpactHub.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<EnderecoResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAllEnderecos()
         {
-            var responseEnderecos = _mapper.Map<EnderecoResponse>(await _enderecoRepository.GetAllEnderecos());
+            var responseEnderecos = _mapper.Map<IEnumerable<EnderecoResponse>>(await _enderecoRepository.GetAllEnderecos());
 
             return Ok(responseEnderecos);
         }

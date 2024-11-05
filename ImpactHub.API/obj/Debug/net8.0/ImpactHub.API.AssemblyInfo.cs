@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ImpactHub.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+30c7bdc07913bbf2cb50a9839fb6307e21b1636c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+11322dfdf664ea97cfff7e5d106f88401f93ea54")]
 [assembly: System.Reflection.AssemblyProductAttribute("ImpactHub.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ImpactHub.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

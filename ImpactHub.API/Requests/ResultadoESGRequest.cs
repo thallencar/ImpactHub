@@ -15,7 +15,7 @@ namespace ImpactHub.API.Requests
 
         [Required(ErrorMessage = "O campo 'pontuacaoGovernanca' é obrigatório.")]
         [Range(0.0, 100.0, ErrorMessage = "O campo 'pontuacaoGovernanca' deve ser entre 0.0 e 100.0")]
-        public double PontucaoGovernanca { get; set; }
+        public double PontuacaoGovernanca { get; set; }
 
         [Required(ErrorMessage = "O campo 'statusResultado' é obrigatório.")]
         [Range(1, 6, ErrorMessage = "O campo 'statusResultado' deve ser entre 1 e 6.")]

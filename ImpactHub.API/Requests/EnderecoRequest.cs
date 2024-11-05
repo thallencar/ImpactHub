@@ -29,7 +29,7 @@ namespace ImpactHub.API.Requests
         public int Numero { get; set; }
 
         [StringLength(125, MinimumLength = 2, ErrorMessage = "O campo 'complemento' deve conter entre 2 e 125 caracteres.")]
-        public string Complemento { get; set; }
+        public string? Complemento { get; set; }
 
         [StringLength(150, MinimumLength = 2, ErrorMessage = "O campo 'pontoReferencia' deve conter entre 2 e 150 caracteres.")]
         public string PontoReferencia { get; set; }
