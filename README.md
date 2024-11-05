@@ -78,36 +78,37 @@ public class ImpactHubDbContext : DbContext
 {
     public ImpactHubDbContext(DbContextOptions options) : base(options) { }
 
-    public DbSet<CadastroModel> Cadastros { get; set; }
-    public DbSet<ContatoModel> Contatos { get; set; }
-    public DbSet<EnderecoModel> Enderecos { get; set; }
-    public DbSet<LoginModel> Logins { get; set; }
+     public DbSet<CadastroModel> Cadastros { get; set; }
+     public DbSet<ContatoModel> Contatos { get; set; }
+     public DbSet<EnderecoModel> Enderecos { get; set; }
+     public DbSet<ResultadoESGModel> Resultados { get; set; }
+     public DbSet<QuestionarioESGModel> Questionarios { get; set; }
 }
 ```
 ### Controller Pattern
 Gerencia as solicitações HTTP, interage com o modelo (representado pelo repositório) e retorna a resposta apropriada.
 ```
-[Route("[controller]")]
-[ApiController]
-public class CadastrosController : ControllerBase
-{
-    private readonly ICadastroRepository _cadastroRepository;
+ [Route("[controller]")]
+ [ApiController]
+ public class CadastrosController : ControllerBase
+ {
+     private readonly ICadastroRepository _cadastroRepository;
+     private readonly IMapper _mapper;
 
-    public CadastrosController(ICadastroRepository cadastroRepository)
-    {
-        _cadastroRepository = cadastroRepository;
-    }
+     public CadastrosController(ICadastroRepository cadastroRepository, IMapper mapper)
+     {
+         _cadastroRepository = cadastroRepository;
+         _mapper = mapper;
+     }
 
-    // GET: api/cadastros
-    [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<CadastroModel>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetAllCadastros()
-    {
-        var cadastros = await _cadastroRepository.GetAllCadastros();
+     [HttpGet]
+     [ProducesResponseType(typeof(IEnumerable<CadastroResponse>), (int)HttpStatusCode.OK)]
+     public async Task<IActionResult> GetAllCadastros()
+     {
+         var responseCadastros = _mapper.Map<IEnumerable<CadastroResponse>>(await _cadastroRepository.GetAllCadastros());
 
-        return Ok(cadastros);
-    }
-}
+         return Ok(responseCadastros);
+     }
 ```
 ### Singleton
 Garante que uma classe tenha apenas uma instância e fornece um ponto de acesso global para essa instância.
@@ -117,3 +118,159 @@ APIConfiguration appConfiguration = new();
 configuration.Bind(appConfiguration);
 builder.Services.Configure<APIConfiguration>(configuration);
 ```
+## Testes Implementados
+A API do ImpactHub inclui testes para garantir a funcionalidade e a qualidade do código. Testes Unitários foram implementados para verificar a lógica de cada unidade do código, utilizando o framework xUnit. Esse tipo de teste garante que métodos e funções individuais se comportem conforme o esperado.
+
+```
+[Fact]
+public async Task UpdateCadastro_WhenCadastroExists()
+{
+    // Arrange
+    _cadastros.Add(_novoCadastro);
+
+    var cadastroRequestAtualizado = new CadastroRequest
+    {
+        NomeEmpresa = "Tech Innovators Updated",
+        Cnpj = "12345678000190",
+        InscricaoEstadual = "1234567890",
+        RazaoSocial = "Tech Innovators Ltda.",
+        Porte = PorteEmpresaEnum.Medio,
+        DataAbertura = DateTime.UtcNow,
+        Email = "updated@techinnovators.com.br",
+        NomeUsuario = "admin2",
+        Senha = "novaSenha123",
+        StatusMonitoramento = StatusMonitoramentoEnum.NaoIniciado
+    };
+
+    // Act
+    await Task.Run(() =>
+    {
+        var cadastro = _cadastros.FirstOrDefault(c => c.IdCadastro == _novoCadastro.IdCadastro);
+        if (cadastro != null)
+        {
+            cadastro.NomeEmpresa = cadastroRequestAtualizado.NomeEmpresa;
+            cadastro.Porte = cadastroRequestAtualizado.Porte;
+            cadastro.Email = cadastroRequestAtualizado.Email;
+        }
+    });
+
+    // Assert
+    var listaCadastros = _cadastros.FirstOrDefault(c => c.IdCadastro == _novoCadastro.IdCadastro);
+    Assert.NotNull(listaCadastros);
+    Assert.Equal(_novoCadastro.NomeEmpresa, listaCadastros.NomeEmpresa);
+    Assert.Equal(_novoCadastro.Cnpj, listaCadastros.Cnpj);
+    Assert.Equal(_novoCadastro.InscricaoEstadual, listaCadastros.InscricaoEstadual);
+    Assert.Equal(_novoCadastro.RazaoSocial, listaCadastros.RazaoSocial);
+    Assert.Equal(_novoCadastro.Porte, listaCadastros.Porte);
+    Assert.Equal(_novoCadastro.DataAbertura, listaCadastros.DataAbertura);
+    Assert.Equal(_novoCadastro.Email, listaCadastros.Email);
+    Assert.Equal(_novoCadastro.NomeUsuario, listaCadastros.NomeUsuario);
+    Assert.Equal(_novoCadastro.Senha, listaCadastros.Senha);
+    Assert.Equal(_novoCadastro.StatusMonitoramento, listaCadastros.StatusMonitoramento);
+}
+```
+
+## Práticas de Clean Code
+várias práticas de Clean Code foram adotadas para garantir que o código seja legível, mantenha uma boa estrutura e facilite a manutenção. As principais práticas incluem:
+
+**Nomenclatura Clara:** Variáveis, métodos e classes foram nomeados de forma que sua finalidade seja clara, evitando ambiguidades.
+```
+public string IdResultado { get; set; }
+public double PontuacaoAmbiental { get; set; }
+public double PontuacaoSocial { get; set; }
+public double PontuacaoGovernanca { get; set; }
+public string StatusResultado { get; set; }
+public DateTime DataGeracao { get; set; }
+public string NomeEmpresa { get; set; }
+```
+**Responsabilidade Única:** Cada classe e método tem uma única responsabilidade, o que melhora a coesão e facilita testes e manutenções futuras.
+```
+[HttpGet("{id}")]
+[ProducesResponseType(typeof(QuestionarioESGModel), (int)HttpStatusCode.OK)]
+[ProducesResponseType((int)HttpStatusCode.NotFound)]
+public async Task<IActionResult> GetQuestionario(string id)
+{
+    var objectId = new ObjectId(id);
+    var questionario = await GetQuestionarioById(objectId);
+
+    if (questionario == null) return NotFound();
+
+    return Ok(questionario);
+}
+
+```
+**Redução de Código Duplicado:** Foi aplicado o princípio DRY (Don't Repeat Yourself), consolidando lógica comum em métodos e classes reutilizáveis.
+```
+[HttpGet]
+[ProducesResponseType(typeof(IEnumerable<CadastroResponse>), (int)HttpStatusCode.OK)]
+public async Task<IActionResult> GetAllCadastros()
+{
+    var responseCadastros = _mapper.Map<IEnumerable<CadastroResponse>>(await _cadastroRepository.GetAllCadastros());
+
+    return Ok(responseCadastros);
+}
+```
+**Organização e Estrutura:** O código é organizado em pacotes e namespaces lógicos, facilitando a navegação e compreensão do projeto.
+```
+namespace ImpactHub.API.Controllers
+{
+    [Route("[controller]")]
+    [ApiController]
+    public class QuestionarioESGController : ControllerBase
+    {
+        // Métodos do controlador
+    }
+}
+
+```
+**Manutenibilidade:** O código foi escrito pensando na facilidade de manutenção futura, com boas práticas de encapsulamento e desacoplamento.
+```
+public static IServiceCollection AddRepository(this IServiceCollection services)
+{
+    services.AddScoped<ICadastroRepository, CadastroRepository>();
+    services.AddScoped<IContatoRepository, ContatoRepository>();
+    services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+    services.AddScoped<IResultadoESGRepository, ResultadoESGRepository>();
+    services.AddScoped<IQuestionarioESGRepository, QuestionarioESGRepository>();
+
+    return services;
+}
+```
+
+## SOLID
+Os princípios SOLID foram aplicados para garantir que o código seja robusto, extensível e de fácil manutenção.
+**Single Responsibility Principle (SRP):** Cada classe tem uma única responsabilidade. Por exemplo, o QuestionarioESGController é responsável apenas por lidar com as requisições relacionadas ao questionário ESG.
+
+**Open/Closed Principle (OCP):** Classes e módulos estão abertos para extensão, mas fechados para modificação. Isso permite a adição de novas funcionalidades sem alterar o código existente.
+**Liskov Substitution Principle (LSP):** Subclasses podem ser substituídas por suas classes base sem alterar o comportamento correto do programa.
+**Interface Segregation Principle (ISP):** Interfaces específicas são definidas para evitar a implementação de métodos desnecessários em classes que as utilizam.
+**Dependency Inversion Principle (DIP):** Dependa de abstrações, e não de implementações concretas.
+
+### Exemplo Aplicado
+```
+public class QuestionarioESGController : ControllerBase
+{
+    private readonly IQuestionarioESGRepository _questionarioESGRepository;
+    private readonly IMapper _mapper;
+
+    public QuestionarioESGController(IQuestionarioESGRepository questionarioESGRepository, IMapper mapper)
+    {
+        _questionarioESGRepository = questionarioESGRepository;
+        _mapper = mapper;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllQuestionarios()
+    {
+        var responseQuestionarios = _mapper.Map<IEnumerable<QuestionarioESGResponse>>(await _questionarioESGRepository.GetAllQuestionariosESG());
+        return Ok(responseQuestionarios);
+    }
+}
+```
+
+### Funcionalidades da IA Generativa
+A API incorpora funcionalidades de IA generativa para aprimorar os insights e relatórios ESG, incluindo:
+
+**Análise Preditiva:** Utiliza modelos de Machine Learning para prever o desempenho ESG das empresas com base em dados históricos e tendências atuais.
+**Geração de Relatórios Inteligentes:** Criação automática de relatórios detalhados sobre práticas ESG, adaptados às necessidades específicas de cada empresa.
+**Sugestões Proativas:** A IA oferece sugestões para melhoria contínua nas práticas ESG, ajudando as empresas a se manterem competitivas e em conformidade com os padrões regulatórios.
